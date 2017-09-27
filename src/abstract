@@ -77,7 +77,7 @@ if (opts.source) {
 }
 
 function processMd(md) {
-	console.log("Abstract: Powered by µPad (https://getmicropad.com)");
+	console.log("Abstract: Powered by µPad (https://getmicropad.com). See licence at https://github.com/NickGeek/Abstract/blob/master/LICENSE.");
 	console.log("Type abstract --help for usage");
 
 	let pdfName = "output.pdf";
