@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/NickGeek/Abstract/issues"
   },
-  "homepage": "https://github.com/NickGeek/Abstract#readme"
+  "homepage": "https://github.com/NickGeek/Abstract#readme",
+  "dependencies": {
+    "get-stdin": "^5.0.1",
+    "phantomjs-prebuilt": "^2.1.15"
+  }
 }
