@@ -1,0 +1,25 @@
+#!/usr/bin/env node
+const commandLineArgs = require('command-line-args');
+const getStdin = require('get-stdin');
+const fs = require('fs');
+
+const optsDef = [
+	{name: "style", alias: "s", type: String},
+	{name: "output", alias: "o", type: String},
+	{name: "source", type: String, defaultOption: true}
+];
+
+const opts = commandLineArgs(optsDef);
+if (opts.source) {
+	//Source file is a commnad line arg
+	fs.readFile(opts.source, "utf8", (err, md) => {
+		if (err) return console.log(err);
+
+		console.log(md);
+	});
+} else {
+	//Look at stdin
+	getStdin().then(md => {
+		console.log(md);
+	});
+}
