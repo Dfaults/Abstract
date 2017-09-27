@@ -40,18 +40,18 @@ const help = [
 				name: 'style',
 				alias: 's',
 				typeLabel: '[underline]{style.css}',
-				description: 'Custom style.'
+				description: 'Apply a custom style to the PDF.'
 			},
 			{
 				name: 'output',
 				alias: 'o',
 				typeLabel: '[underline]{file.pdf}',
-				description: 'Output PDF name.'
+				description: 'Filename for the outputted PDF file.'
 			},
 			{
 				name: 'source',
 				typeLabel: '[underline]{file.md}',
-				description: 'The file to convert.'
+				description: 'The markdown file to convert.'
 			}
 		]
 	}

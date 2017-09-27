@@ -9,3 +9,7 @@ html {
 h1:not(:first-of-type) {
 	page-break-before: always;
 }
+
+.mjx-chtml {
+	padding-bottom: 10px !important;
+}
