@@ -16,7 +16,10 @@
 	"dependencies": {
 		"command-line-args": "^4.0.7",
 		"get-stdin": "^5.0.1",
-		"phantomjs-prebuilt": "^2.1.15"
+		"mathjax-node": "^1.2.1",
+		"phantomjs-prebuilt": "^2.1.15",
+		"showdown": "^1.7.4",
+		"string-replace-async": "^1.2.1"
 	},
 	"devDependencies": {}
 }

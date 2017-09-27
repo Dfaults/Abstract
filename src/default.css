@@ -1,0 +1,11 @@
+table, th, td {
+	border: 1px solid black;border-collapse: collapse;background-color: #fff;
+}
+
+html {
+	font-family: Times, "Times New Roman", Georgia, serif;
+}
+
+h1:not(:first-of-type) {
+	page-break-before: always;
+}

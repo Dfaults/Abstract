@@ -2,6 +2,8 @@
 const commandLineArgs = require('command-line-args');
 const getStdin = require('get-stdin');
 const fs = require('fs');
+const md2html = require('./md2html.js');
+const phantomjs = require('phantomjs-prebuilt')
 
 const optsDef = [
 	{name: "style", alias: "s", type: String},
@@ -15,11 +17,43 @@ if (opts.source) {
 	fs.readFile(opts.source, "utf8", (err, md) => {
 		if (err) return console.log(err);
 
-		console.log(md);
+		processMd(md);
 	});
 } else {
 	//Look at stdin
 	getStdin().then(md => {
-		console.log(md);
+		processMd(md);
 	});
+}
+
+function processMd(md) {
+	fs.readFile((opts.style ? opts.style : __dirname+"/default.css"), "utf8", (err, css) => {
+		if (err) return console.log(err);
+		fs.readFile(__dirname+"/ASCIIsvg.js", "utf8", (err, js) => {
+			if (err) return console.log(err);
+			md2html.getHtml(md, css, js).then(html => {
+				let tempFilename = Date.now()+".html";
+				fs.writeFile(tempFilename, html, err => {
+					if (err) return console.log(err);
+
+					let pdfName = "output.pdf";
+					if (opts.output) {
+						pdfName = opts.output;
+					} else if (opts.source) {
+						pdfName = opts.source.split('/').pop().replace('.md', '.pdf');
+					}
+
+					let instance = phantomjs.exec(__dirname+'/rasterize.js', tempFilename, pdfName, "A4");
+					instance.stderr.pipe(process.stderr);
+					instance.on('exit', code => {
+						fs.unlink(tempFilename, err => {
+							if (err) return console.log(err);
+						});
+					});
+				});
+			});
+		});
+	});
+
+	
 }

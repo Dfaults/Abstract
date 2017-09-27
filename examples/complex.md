@@ -16,7 +16,7 @@ a. Is ''f(x)'' a pdf?
 	- ''int_1^4 (1/(2sqrt(x))) dx = 1/2 int_1^4 (x^(-1/2)) dx = [(2 x^(1/2))/2]_1^4 = [sqrt(x)]_1^4 = sqrt(4) - sqrt(1) = 1''
 		- So, yes
 
-##  Majoritarian vs. Consensus government
+#  Majoritarian vs. Consensus government
 
 - A majoritarian govt. can be formed by a majority or a plurality of the vote
 
@@ -42,3 +42,7 @@ axes()
 stroke = "blue"
 plot("(10x)/(x+10)")
 =-=
+
+We also support some TeX: ;;\mu Pad \text{ is cool! } a^2 + b^2 = c^2;;
+
+![](https://nick.geek.nz/images/coco.jpg =200x*)
