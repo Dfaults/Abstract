@@ -1,0 +1,19 @@
+{
+  "name": "abstract",
+  "version": "1.0.0",
+  "description": "A small CLI tool to turn µPad-flavoured markdown into pdf documents",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NickGeek/Abstract.git"
+  },
+  "author": "Nick Webster",
+  "license": "MPL-2.0",
+  "bugs": {
+    "url": "https://github.com/NickGeek/Abstract/issues"
+  },
+  "homepage": "https://github.com/NickGeek/Abstract#readme"
+}
