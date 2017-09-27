@@ -13,7 +13,8 @@ Question: *What is the probability that ''x'' lies in ''[a, b]''?*
 
 a. Is ''f(x)'' a pdf?  
 - Total must be 1
-	- ''int_1^4 (1/(2sqrt(x))) dx = 1/2 int_1^4 (x^(-1/2)) dx = [(2 x^(1/2))/2]_1^4 = [sqrt(x)]_1^4 = sqrt(4) - sqrt(1) = 1''
+	- ''int_1^4 (1/(2sqrt(x))) dx = 1/2 int_1^4 (x^(-1/2)) dx = [(2 x^(1/2))/2]_1^4 = [sqrt(x)]_1^4''  
+	''= sqrt(4) - sqrt(1) = 1''
 		- So, yes
 
 #  Majoritarian vs. Consensus government
