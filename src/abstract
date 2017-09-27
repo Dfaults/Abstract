@@ -46,7 +46,7 @@ const help = [
 				name: 'output',
 				alias: 'o',
 				typeLabel: '[underline]{file.pdf}',
-				description: 'Output PDF name'
+				description: 'Output PDF name.'
 			},
 			{
 				name: 'source',
