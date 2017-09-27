@@ -15,6 +15,7 @@
 	"homepage": "https://github.com/NickGeek/Abstract#readme",
 	"dependencies": {
 		"command-line-args": "^4.0.7",
+		"command-line-usage": "^4.0.1",
 		"get-stdin": "^5.0.1",
 		"mathjax-node": "^1.2.1",
 		"phantomjs-prebuilt": "^2.1.15",

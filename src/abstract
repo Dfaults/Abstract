@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 const commandLineArgs = require('command-line-args');
+const getUsage = require('command-line-usage');
 const getStdin = require('get-stdin');
 const fs = require('fs');
 const md2html = require('./md2html.js');
@@ -8,10 +9,59 @@ const phantomjs = require('phantomjs-prebuilt')
 const optsDef = [
 	{name: "style", alias: "s", type: String},
 	{name: "output", alias: "o", type: String},
-	{name: "source", type: String, defaultOption: true}
+	{name: "source", type: String, defaultOption: true},
+	{name: "help", alias: "h", type: Boolean}
 ];
 
 const opts = commandLineArgs(optsDef);
+
+/** Usage Instructions */
+const help = [
+	{
+		header: "Abstract",
+		content: "Takes a µPad-flavoured Markdown file and turns it into a PDF file."
+	},
+	{
+		header: "Usage",
+		content: [
+			'$ abstract [[bold]{--style} [underline]{style.css}] [[bold]{--output} [underline]{file.pdf}] [underline]{file.md}',
+			'$ abstract [[bold]{--style} [underline]{style.css}] [[bold]{--output} [underline]{file.pdf}] [bold]{--source} [underline]{file.md}',
+			'$ cat [underline]{file.md} | abstract [[bold]{--style} [underline]{style.css}] [[bold]{--output} [underline]{file.pdf}]'
+		]
+	},
+	{
+		header: 'Options',
+		optionList: [
+			{
+				name: 'help',
+				alias: 'h'
+			},
+			{
+				name: 'style',
+				alias: 's',
+				typeLabel: '[underline]{style.css}',
+				description: 'Custom style.'
+			},
+			{
+				name: 'output',
+				alias: 'o',
+				typeLabel: '[underline]{file.pdf}',
+				description: 'Output PDF name'
+			},
+			{
+				name: 'source',
+				typeLabel: '[underline]{file.md}',
+				description: 'The file to convert.'
+			}
+		]
+	}
+];
+
+const usage = getUsage(help);
+
+/** Handle input and do conversion */
+if (opts.help) return console.log(usage);
+
 if (opts.source) {
 	//Source file is a commnad line arg
 	fs.readFile(opts.source, "utf8", (err, md) => {
@@ -27,6 +77,17 @@ if (opts.source) {
 }
 
 function processMd(md) {
+	console.log("Abstract: Powered by µPad (https://getmicropad.com)");
+	console.log("Type abstract --help for usage");
+
+	let pdfName = "output.pdf";
+	if (opts.output) {
+		pdfName = opts.output;
+	} else if (opts.source) {
+		pdfName = opts.source.split('/').pop().replace('.md', '.pdf');
+	}
+	console.log("Parsing "+opts.source+" into "+pdfName+"...");
+
 	fs.readFile((opts.style ? opts.style : __dirname+"/default.css"), "utf8", (err, css) => {
 		if (err) return console.log(err);
 		fs.readFile(__dirname+"/ASCIIsvg.js", "utf8", (err, js) => {
@@ -35,13 +96,6 @@ function processMd(md) {
 				let tempFilename = Date.now()+".html";
 				fs.writeFile(tempFilename, html, err => {
 					if (err) return console.log(err);
-
-					let pdfName = "output.pdf";
-					if (opts.output) {
-						pdfName = opts.output;
-					} else if (opts.source) {
-						pdfName = opts.source.split('/').pop().replace('.md', '.pdf');
-					}
 
 					let instance = phantomjs.exec(__dirname+'/rasterize.js', tempFilename, pdfName, "A4");
 					instance.stderr.pipe(process.stderr);
@@ -54,6 +108,4 @@ function processMd(md) {
 			});
 		});
 	});
-
-	
 }
