@@ -86,7 +86,7 @@ function processMd(md) {
 	} else if (opts.source) {
 		pdfName = opts.source.split('/').pop().replace('.md', '.pdf');
 	}
-	console.log("Parsing "+opts.source+" into "+pdfName+"...");
+	console.log("Parsing "+(opts.source ? opts.source : "stdin")+" into "+pdfName+"...");
 
 	fs.readFile((opts.style ? opts.style : __dirname+"/src/default.css"), "utf8", (err, css) => {
 		if (err) return console.log(err);
