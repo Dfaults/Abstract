@@ -4,6 +4,7 @@ table, th, td {
 
 html {
 	font-family: Times, "Times New Roman", Georgia, serif;
+	font-size: 12px;
 }
 
 h1:not(:first-of-type) {
