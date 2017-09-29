@@ -84,7 +84,7 @@ function processMd(md) {
 	if (opts.output) {
 		pdfName = opts.output;
 	} else if (opts.source) {
-		pdfName = opts.source.split('/').pop().replace('.md', '.pdf');
+		pdfName = opts.source.replace(/.md$/, '.pdf');
 	}
 	console.log("Parsing "+(opts.source ? opts.source : "stdin")+" into "+pdfName+"...");
 
