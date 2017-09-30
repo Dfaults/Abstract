@@ -1,6 +1,6 @@
 root = true
 
-[*.{js,json},abstract]
+[{*.js,package.json,abstract}]
 indent_style = tab
 insert_final_newline = true
 end_of_line = lf
