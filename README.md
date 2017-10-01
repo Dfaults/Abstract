@@ -8,3 +8,4 @@ A small CLI tool to turn µPad-flavoured markdown into pdf documents.
 2. `$ cd Abstract`
 3. `$ npm install`
 4. `$ ./abstract -h`
+	- Note: *On Windows the command is:* `node abstract -h`
