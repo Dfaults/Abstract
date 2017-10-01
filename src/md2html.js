@@ -3,6 +3,9 @@ const mathjax = require('mathjax-node');
 const replaceAsync = require('string-replace-async');
 
 /** Setup MathJax */
+mathjax.config({
+	fontURL: 'file://'+__dirname+'/lib/fonts/HTML-CSS'
+});
 mathjax.start();
 
 /** Setup parser */
