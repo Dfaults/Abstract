@@ -91,7 +91,7 @@ async function processMd(md) {
 	let html = await md2html.getHtml(md, css, js);
 
 	let tempFilename = Date.now()+".html";
-	await fs.writeFile(tempFilename, html)
+	await fs.writeFile(tempFilename, html);
 
 	let instance = phantomjs.exec(__dirname+'/src/rasterize.js', tempFilename, pdfName, "A4");
 	instance.stderr.pipe(process.stderr);
@@ -103,10 +103,11 @@ async function processMd(md) {
 function waitForPhantom(process) {
 	return new Promise((resolve, reject) => {
 		process.on('exit', code => {
-			if (code == 0)
+			if (code == 0) {
 				resolve(code);
-			else
+			} else {
 				reject(`PhantomJS exited with non-zero exit code ${code}`);
+			}
 		});
 	});
 }
