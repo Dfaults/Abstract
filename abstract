@@ -39,6 +39,11 @@ const help = [
 				alias: 'h'
 			},
 			{
+				name: 'watch',
+				alias: 'w',
+				description: 'Automatically update the PDF file'
+			},
+			{
 				name: 'style',
 				alias: 's',
 				typeLabel: '[underline]{style.css}',
