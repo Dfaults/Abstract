@@ -17,6 +17,11 @@ a. Is ''f(x)'' a pdf?
 [sqrt(x)]_1^4 = sqrt(4) - sqrt(1) = 1''
 		- So, yes
 
+We can also do todo lists:  
+- [ ] This isn't done yet
+	- [ ] This isn't either
+- [x] But this is
+
 #  Majoritarian vs. Consensus government
 
 - A majoritarian govt. can be formed by a majority or a plurality of the vote
@@ -46,4 +51,6 @@ plot("(10x)/(x+10)")
 
 We also support some TeX: ;;\mu Pad \text{ is cool! } a^2 + b^2 = c^2;;
 
-![](https://nick.geek.nz/images/coco.jpg =200x*)
+I'm gonna put a page break after this.+-+-
+
+![](https://nick.geek.nz/images/coco.jpg =400x*)
