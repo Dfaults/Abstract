@@ -10,6 +10,7 @@ const phantomjs = require('phantomjs-prebuilt')
 const optsDef = [
 	{name: "style", alias: "s", type: String},
 	{name: "output", alias: "o", type: String},
+	{name: "watch", alias: "w", type: Boolean},
 	{name: "source", type: String, defaultOption: true},
 	{name: "help", alias: "h", type: Boolean}
 ];
@@ -38,6 +39,11 @@ const help = [
 				alias: 'h'
 			},
 			{
+				name: 'watch',
+				alias: 'w',
+				description: 'Automatically update the PDF file'
+			},
+			{
 				name: 'style',
 				alias: 's',
 				typeLabel: '[underline]{style.css}',
@@ -63,22 +69,19 @@ const usage = getUsage(help);
 /** Handle input and do conversion */
 if (opts.help) return console.log(usage);
 
+console.log("Abstract: Powered by µPad (https://getmicropad.com). See licence at https://github.com/NickGeek/Abstract/blob/master/LICENSE.");
+console.log("Type abstract --help for usage");
+
 (opts.source
  // Source file is a command line Argo
  ? fs.readFile(opts.source, "utf8")
  // Look at stdin
  : getStdin())
 	.then(processMd)
-	.catch((err) => {
-		console.log("An error occurred:");
-		console.log(err);
-		process.exit(1);
-	});
+	.then(watcher)
+	.catch(handleError);
 
 async function processMd(md) {
-	console.log("Abstract: Powered by µPad (https://getmicropad.com). See licence at https://github.com/NickGeek/Abstract/blob/master/LICENSE.");
-	console.log("Type abstract --help for usage");
-
 	let pdfName =
 		opts.output ? opts.output :
 		opts.source ? opts.source.replace(/\.md$/, '.pdf') :
@@ -110,4 +113,21 @@ function waitForPhantom(process) {
 			}
 		});
 	});
+}
+
+function watcher() {
+	// If the user has defined watch, add an event handler to call this function again
+	if (opts.source && opts.watch) {
+		fs.watch(opts.source, () => {
+			fs.readFile(opts.source, "utf8")
+			.then(processMd)
+			.catch(handleError);
+		});
+	}
+}
+
+function handleError(err) {
+	console.log("An error occurred:");
+	console.log(err);
+	process.exit(1);
 }
