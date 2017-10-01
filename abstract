@@ -42,7 +42,7 @@ const help = [
 			{
 				name: 'watch',
 				alias: 'w',
-				description: 'Automatically update the PDF file'
+				description: 'Automatically update the PDF file.'
 			},
 			{
 				name: 'style',
