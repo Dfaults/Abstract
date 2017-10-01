@@ -2,7 +2,8 @@
 const commandLineArgs = require('command-line-args');
 const getUsage = require('command-line-usage');
 const getStdin = require('get-stdin');
-const fs = require('fs');
+const fs = require('mz/fs');
+const process = require('process');
 const md2html = require('./src/md2html.js');
 const phantomjs = require('phantomjs-prebuilt')
 
@@ -62,50 +63,51 @@ const usage = getUsage(help);
 /** Handle input and do conversion */
 if (opts.help) return console.log(usage);
 
-if (opts.source) {
-	//Source file is a commnad line arg
-	fs.readFile(opts.source, "utf8", (err, md) => {
-		if (err) return console.log(err);
-
-		processMd(md);
+(opts.source
+ // Source file is a command line Argo
+ ? fs.readFile(opts.source, "utf8")
+ // Look at stdin
+ : getStdin())
+	.then(processMd)
+	.catch((err) => {
+		console.log("An error occurred:");
+		console.log(err);
+		process.exit(1);
 	});
-} else {
-	//Look at stdin
-	getStdin().then(md => {
-		processMd(md);
-	});
-}
 
-function processMd(md) {
+async function processMd(md) {
 	console.log("Abstract: Powered by µPad (https://getmicropad.com). See licence at https://github.com/NickGeek/Abstract/blob/master/LICENSE.");
 	console.log("Type abstract --help for usage");
 
-	let pdfName = "output.pdf";
-	if (opts.output) {
-		pdfName = opts.output;
-	} else if (opts.source) {
-		pdfName = opts.source.replace(/\.md$/, '.pdf');
-	}
-	console.log("Parsing "+(opts.source ? opts.source : "stdin")+" into "+pdfName+"...");
+	let pdfName =
+		opts.output ? opts.output :
+		opts.source ? opts.source.replace(/\.md$/, '.pdf') :
+		"output.pdf";
 
-	fs.readFile((opts.style ? opts.style : __dirname+"/src/default.css"), "utf8", (err, css) => {
-		if (err) return console.log(err);
-		fs.readFile(__dirname+"/src/ASCIIsvg.js", "utf8", (err, js) => {
-			if (err) return console.log(err);
-			md2html.getHtml(md, css, js).then(html => {
-				let tempFilename = Date.now()+".html";
-				fs.writeFile(tempFilename, html, err => {
-					if (err) return console.log(err);
+	console.log(`Parsing ${opts.source ? opts.source : "stdin"} into ${pdfName}...`);
 
-					let instance = phantomjs.exec(__dirname+'/src/rasterize.js', tempFilename, pdfName, "A4");
-					instance.stderr.pipe(process.stderr);
-					instance.on('exit', code => {
-						fs.unlink(tempFilename, err => {
-							if (err) return console.log(err);
-						});
-					});
-				});
-			});
+	let css = await fs.readFile((opts.style ? opts.style : __dirname+"/src/default.css"), "utf8");
+	let js = await fs.readFile(__dirname+"/src/ASCIIsvg.js", "utf8");
+	let html = await md2html.getHtml(md, css, js);
+
+	let tempFilename = Date.now()+".html";
+	await fs.writeFile(tempFilename, html);
+
+	let instance = phantomjs.exec(__dirname+'/src/rasterize.js', tempFilename, pdfName, "A4");
+	instance.stderr.pipe(process.stderr);
+	await waitForPhantom(instance);
+
+	await fs.unlink(tempFilename);
+}
+
+function waitForPhantom(process) {
+	return new Promise((resolve, reject) => {
+		process.on('exit', code => {
+			if (code == 0) {
+				resolve(code);
+			} else {
+				reject(`PhantomJS exited with non-zero exit code ${code}`);
+			}
 		});
 	});
 }
