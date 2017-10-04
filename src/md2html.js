@@ -1,10 +1,14 @@
 const showdown  = require('showdown');
 const mathjax = require('mathjax-node');
 const replaceAsync = require('string-replace-async');
+const path = require('path');
 
 /** Setup MathJax */
+let dirname = __dirname;
+if (process.platform === 'win32') dirname = "/"+__dirname.replace(/\\/g, '/');
+
 mathjax.config({
-	fontURL: 'file://'+__dirname+'/lib/fonts/HTML-CSS'
+	fontURL: 'file://'+dirname+'/lib/fonts/HTML-CSS'
 });
 mathjax.start();
 
