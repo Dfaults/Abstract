@@ -11,6 +11,10 @@ h1:not(:first-of-type) {
 	page-break-before: always;
 }
 
+pre {
+	white-space: pre-wrap;
+}
+
 .mjx-chtml {
 	padding-bottom: 10px !important;
 }
