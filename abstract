@@ -120,16 +120,20 @@ function waitForPhantom(process) {
 }
 
 function watcher() {
+	let watchFunction = function watchFunction() {
+		fs.readFile(opts.source, "utf8")
+		.then((md) => {
+			(isProcessing) ? setTimeout(arguments.callee, 1000) : processMd(md);
+		})
+		.catch(handleError);
+	};
+
 	// If the user has defined watch, add an event handler to call this function again
 	if (opts.source && opts.watch) {
-		fs.watch(opts.source, () => {
-			fs.readFile(opts.source, "utf8")
-			.then((md) => {
-				(isProcessing) ? setTimeout(arguments.callee, 1000) : processMd(md);
-			})
-			.catch(handleError);
-		});
+		fs.watch(opts.source, watchFunction);
+		if (opts.style) fs.watch(opts.style, watchFunction);
 	}
+
 }
 
 function handleError(err) {
