@@ -122,8 +122,10 @@ function waitForPhantom(process) {
 function watcher() {
 	let watchFunction = function watchFunction() {
 		fs.readFile(opts.source, "utf8")
-		.then((md) => {
-			(isProcessing) ? setTimeout(arguments.callee, 1000) : processMd(md);
+		.then(function loop(md) {
+			(isProcessing)
+				? setTimeout(loop.bind(null, md), 1000) 
+				: processMd(md);
 		})
 		.catch(handleError);
 	};
