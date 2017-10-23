@@ -130,9 +130,10 @@ const converter = new showdown.Converter({
 	extensions: ['maths', 'tex-maths', 'graphs', 'quick-maths']
 });
 
-exports.getHtml = function(md, css, js) {
+exports.getHtml = function(md, extraHtml, css, js) {
 	return new Promise((resolve, reject) => {
-		let html = '<meta charset="UTF-8"><style>'+css+'</style>'+converter.makeHtml(md);
+		extraHtml = (extraHtml) ? extraHtml : "";
+		let html = '<meta charset="UTF-8"><style>'+css+'</style>'+extraHtml+converter.makeHtml(md);
 
 		//Parse TeX
 		replaceAsync(html, /;;([^]+?);;/gi, (match, str) => {

@@ -19,6 +19,14 @@ td, th {
   font-size: 12px;
 }
 
+a {
+  color: black;
+}
+
+td, th {
+  font-size: 12px;
+}
+
 .mjx-chtml {
-	padding-bottom: 10px !important;
+	padding-bottom: 5px !important;
 }

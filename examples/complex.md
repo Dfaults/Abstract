@@ -49,7 +49,8 @@ stroke = "blue"
 plot("(10x)/(x+10)")
 =-=
 
-We also support some TeX: ;;\mu Pad \text{ is cool! } a^2 + b^2 = c^2;;
+We also support some ;;\LaTeX;;: ;;\mu Pad \text{ is cool! } a^2 + b^2 = c^2;;  
+Did somebody say `inline code`?
 
 I'm gonna put a page break after this.+-+-
 

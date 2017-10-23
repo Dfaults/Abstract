@@ -12,6 +12,7 @@ const optsDef = [
 	{name: "style", alias: "s", type: String},
 	{name: "output", alias: "o", type: String},
 	{name: "watch", alias: "w", type: Boolean},
+	{name: "fancy", alias: "f", type: Boolean},
 	{name: "source", type: String, defaultOption: true},
 	{name: "help", alias: "h", type: Boolean}
 ];
@@ -22,7 +23,8 @@ const opts = commandLineArgs(optsDef);
 const help = [
 	{
 		header: "Abstract",
-		content: "Takes a µPad-flavoured Markdown file and turns it into a PDF file."
+		content: "Takes a µPad-flavoured Markdown file and turns it into a PDF file.\n\
+		More information at https://github.com/NickGeek/abstract."
 	},
 	{
 		header: "Usage",
@@ -43,6 +45,11 @@ const help = [
 				name: 'watch',
 				alias: 'w',
 				description: 'Automatically update the PDF file.'
+			},
+			{
+				name: 'fancy',
+				alias: 'f',
+				description: 'Download and use fancy fonts in the generation of the document'
 			},
 			{
 				name: 'style',
@@ -73,6 +80,11 @@ if (opts.help) return console.log(usage);
 console.log("Abstract: Powered by µPad (https://getmicropad.com). See licence at https://github.com/NickGeek/Abstract/blob/master/LICENSE.");
 console.log("Type abstract --help for usage");
 
+if (opts.fancy) {
+	console.log("Downloading fonts from https://github.com/ickc/markdown-latex-css. See licence at https://github.com/ickc/markdown-latex-css/blob/master/LICENCE.");
+	var extraHtml = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ickc/markdown-latex-css/fonts/fonts.min.css" />';
+}
+
 (opts.source
  // Source file is a command line Argo
  ? fs.readFile(opts.source, "utf8")
@@ -94,7 +106,7 @@ async function processMd(md) {
 
 	let css = await fs.readFile((opts.style ? opts.style : __dirname+"/src/default.css"), "utf8");
 	let js = await fs.readFile(__dirname+"/src/lib/ASCIIsvg.js", "utf8");
-	let html = await md2html.getHtml(md, css, js);
+	let html = await md2html.getHtml(md, extraHtml, css, js);
 
 	let tempFilename = Date.now()+".html";
 	await fs.writeFile(tempFilename, html);
