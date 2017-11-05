@@ -162,7 +162,7 @@ exports.getHtml = function(md, extraHtml, css, js) {
 				});
 			}).then(html => {
 				//Parse page breaks
-				html = html.replace(/\+-\+-/g, '<p style="page-break-before: always;">&nbsp;</p>');
+				html = html.replace(/(\+-\+-|\+\+\+)/g, '<p style="page-break-before: always;">&nbsp;</p>');
 
 				//Return compiled html
 				resolve(html+'<script>'+js+'</script>');
