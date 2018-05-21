@@ -2,7 +2,7 @@
 	"name": "abstract",
 	"version": "1.0.0",
 	"description": "A small CLI tool to turn µPad-flavoured markdown into pdf documents",
-	"main": "src/abstract",
+	"main": "./abstract",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/NickGeek/Abstract.git"
@@ -17,9 +17,9 @@
 		"command-line-args": "^4.0.7",
 		"command-line-usage": "^4.0.1",
 		"get-stdin": "^5.0.1",
-		"mathjax-node": "^1.2.1",
+		"mathjax-node": "^2.1.0",
 		"mz": "^2.7.0",
-		"phantomjs-prebuilt": "^2.1.15",
+		"phantomjs-prebuilt": "^2.1.16",
 		"showdown": "^1.7.4",
 		"string-replace-async": "^1.2.1"
 	},
